@@ -152,7 +152,7 @@
         var $element,
             abbr = window.i18next.t('abbr:'+key, {defaultValue:''});
 
-        if (window.i18next.t('link:'+key, {default:''})){
+        if (window.i18next.t('link:'+key, {defaultValue:''})){
             //Create an <a>-element
             $element = $('<a/>');
             $element.i18n('link:'+key, 'href');
