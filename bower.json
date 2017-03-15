@@ -1,13 +1,15 @@
 {
   "name": "fcoo-i18next-phrases",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "homepage": "https://github.com/FCOO/fcoo-i18next-phrases",
   "authors": [
     "Niels Holt"
   ],
   "description": "",
   "main": [
-    "dist/fcoo-i18next-phrases.js"
+    "dist/fcoo-i18next-phrases.js",
+    "dist/fcoo-i18next-abbr-name-link.json",
+    "dist/fcoo-parameter.json"
   ],
   "repository": {
     "type": "git",
@@ -15,7 +17,9 @@
   },
   "dependencies": {
     "jquery": "latest",
-    "fcoo-language": "fcoo/fcoo-language#latest"
+    "i18next": "latest",
+    "i18next-phrases": "fcoo/i18next-phrases#latest",
+    "jquery-i18next-phrases": "fcoo/jquery-i18next-phrases#latest"
   },
   "devDependencies": {},
   "license": "MIT",

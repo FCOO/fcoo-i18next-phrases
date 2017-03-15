@@ -8,77 +8,78 @@
 
 ****************************************************************************/
 
-(function (window/*, document, undefined*/) {
+(function (i18next/*, window, document, undefined*/) {
 	"use strict";
-	
-	//Create fcoo-namespace
-	//window.fcoo = window.fcoo || {};
-    //var ns = window;
 
-    /*
-    Namespace name
-    Full name of institutions or organizations. 
-    Use national abbreviation as key and include name in national language. 
-    */
-    window.i18next.addPhrases( 'name', {
-        fcoo: {
-            da: "Forsvarets Center for Operativ Oceanografi",
-            en: "Defence Center for Operational Oceanography"
-        },
-        dmi: {
-            da: "Danmarks Meteorologiske Institut",
-            en: "Danish Meteorological Institute"
-        },
-        ecmwf: {
-            en: "European Centre for Medium-Range Weather Forecasts"
-        },
-        noaa: {
-            en: "National Oceanic and Atmospheric Administration"
-        },
-        navo: {
-            en: "The Naval Oceanographic Office"
-        },
-        bsh: {
-            en: "Federal Maritime and Hydrographic Agency",
-            de: "Bundesamt für Seeschifffahrt und Hydrographie"
-        },
-        smhi: {
-            en: "Swedish Meteorological and Hydrological Institute",
-            sv: "Sveriges meteorologiska och hydrologiska institut"
-        },
+    //Initialize i18next if not already done
+    if ($.isEmptyObject(i18next.options)){
+        window.i18next.init({
+            initImmediate     : false, //prevents resource loading in init function inside setTimeout (default async behaviour)
+            resources         : {},    //Empty bagend
+            lng        : 'da',
+            fallbackLng:'en'
+       
+        });
+     }
 
+
+    function callback( err ){
+        if (err){
+            //TODO          
+        }
+        else { 
+            $('*').localize();
+        }
+    }
+    
+    function loadJSON( jsonFileName, callback, onFail ){
+        var jqxhr = $.getJSON( jsonFileName );
+
+        if (callback)
+            jqxhr.done( callback );
+            
+        if (onFail)
+            jqxhr.fail( onFail );
+    }
+
+    
+    
+    //Load "fcoo-i18next-abbr-name-link.json"
+    i18next.loadKeyPhrases( 'fcoo-i18next-abbr-name-link.json', callback );
+
+    
+    //Load "fcoo-parameter.json"
+    loadJSON( "fcoo-parameter.json", 
+        function( data ) {
+            //Create translation of units with WMO-unit and/or CF Standard Name units as key
+            $.each( data.units, function( index, unit ){
+                if (unit.en){
+                    if (unit.WMO_unit)
+                        i18next.addPhrase( 'unit', unit.WMO_unit, unit );                  
+                    if (unit.CF_unit)
+                        i18next.addPhrase( 'unit', unit.CF_unit, unit );                  
+                }
+            });
+
+            //Create translation of paramter-names with WMO-abbr and/or CF Standard Name as key
+            $.each( data.parameters, function( index, parameter ){
+                if (parameter.en){
+                    if (parameter.WMO_abbr)
+                        i18next.addPhrase( 'parameter', parameter.WMO_abbr, parameter );                  
+                    if (parameter.CF_SN)
+                        i18next.addPhrase( 'parameter', parameter.CF_SN, parameter );                  
+                }
+            });
+            $('*').localize();
+        },
         
+        function( /*err*/ ){
+            //TODO
+        }
+    );
 
-    });
-
-    /*
-    Namespace abbr
-    The abbrivation of institutes etc.
-    Only needed in $.i18nLink if key.toUpperCase is different from abbr
-    E.g. if key = 'fcoo' and abbr = 'FCOO' => no need for 'abbr:fcoo'
-    */
-    window.i18next.addPhrases( 'abbr', {
-  
-
-    });
-
-    /*
-    Namespace link
-    The link-address to a home-page. Use the address as key. 
-    E.g. key = "link:dmi.dk", translation da:"http://dmi.dk", en:"http://dmi.dk/en"
-    */
-    window.i18next.addPhrases( 'link', {
-        fcoo : { da: "//fcoo.dk", en: "//fcoo.dk?lang=en" },
-        dmi  : { da: "http://dmi.dk",  en: "http://dmi.dk/en" },
-        ecmwf: { en: "http://www.ecmwf.int" },
-        noaa : { en: "http://noaa.gov" },
-        navo : { en: "http://www.usno.navy.mil/NAVO" },
-        bsh  : { en: "http://www.bsh.de/en", de: "http://www.bsh.de" },
-        smhi : { en: "//www.smhi.se/en", sv: "//www.smhi.se" }
-
-
-    });
-
+    
+    
     /*
     Namespace button
     Standard text to buttons. 
@@ -101,11 +102,11 @@
           'Temp.': 'Temperature'
     },
     da: {
-          'Wave height': 'Bølgehøjde',
-          'Mean wave period': 'Bølgeperiode',
-          'Vel.': 'Strømhastighed',
-          'Current speed': 'Strømhastighed',
-          'Current': 'Strømhastighed',
+          'Wave height': 'BÃ¸lgehÃ¸jde',
+          'Mean wave period': 'BÃ¸lgeperiode',
+          'Vel.': 'StrÃ¸mhastighed',
+          'Current speed': 'StrÃ¸mhastighed',
+          'Current': 'StrÃ¸mhastighed',
           'Elevation': 'Vandstand',
           'Temperature': 'Temperatur',
           'Temp.': 'Temperatur',
@@ -119,10 +120,10 @@
           'Sea ice thickness': 'Havistykkelse',
           'Sea ice drift speed': 'Havisdrifthastighed',
           'Visibility': 'Sigtbarhed',
-          'Total precipitation flux': 'Nedbør',
+          'Total precipitation flux': 'NedbÃ¸r',
           '2 metre temperature': '2 meter temperatur',
-          'Total cloud cover': 'Skydække',
-          'Significant wave height of combined wind waves and swell': 'Bølgehøjde',
+          'Total cloud cover': 'SkydÃ¦kke',
+          'Significant wave height of combined wind waves and swell': 'BÃ¸lgehÃ¸jde',
           'mm/hour': 'mm/time',
           'degC': '&deg;C',
           'knots': 'knob',
@@ -142,42 +143,10 @@
     */
 
 
-
-    /*
-    jQuery methods to create element with contents given by i18next-keys
-    */
-
-    //Create a <a>- or <span>-element with abbriviation and title and link (if exists)
-    $.i18nLink = function( key ){
-        var $element,
-            abbr = window.i18next.t('abbr:'+key, {defaultValue:''});
-
-        if (window.i18next.t('link:'+key, {defaultValue:''})){
-            //Create an <a>-element
-            $element = $('<a/>');
-            $element.i18n('link:'+key, 'href');
-        }
-        else 
-            //Create a <span>-element
-            $element = $('<span/>');
-
-        //Add title
-        if (window.i18next.t('name:'+key, {defaultValue:''}))
-            $element.i18n('name:'+key, 'title');          
-
-        //Add abbrivation
-        if (abbr)
-            $element.i18n('abbr:'+key);          
-        else
-            $element.text( key.toUpperCase());          
-        
-        return $element;
-    };
-
     //Initialize/ready 
 	$(function() { 
 
 	
 	}); //End of initialize/ready
 
-}(this, document));
+}(this.i18next, this, document));

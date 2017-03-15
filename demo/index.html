@@ -10,23 +10,50 @@
 	<meta name='owner' content='FCOO'>
 
   <link  href="bower_components.css" rel="stylesheet">	
+    <style>
+        html, body { padding:0; margin: 0; width:100%; height:90%; }
+        h4 {margin-bottom: 2px}
+    </style>
 </head>
 
-<body>
+<body style="padding: 10px;">
+    <h2></h2>
 
 
 	
 	
 	<script src="bower_components.js"></script>
 	<script src="../src/fcoo-i18next-phrases.js"></script>
+	<script src="../src/jQuery.i18nLink.js"></script>
 	<script>
-        $('body')
-            .append( $.i18nLink('fcoo') )
-            .append( '<br>' )
-            .append( $.i18nLink('dmi') )
-            .append( '<br>' )
-            .append( $.i18nLink('do_not_exists') )
+        (function ($) {
 
+            $('h2').on('click', function(){
+                i18next.changeLanguage( i18next.language == 'en' ? 'da' : 'en' );
+                $('*').localize();
+            });
+
+            $('h2').i18n({da:'Klik her for at skifte sprog', en:'Click here to change language'});
+
+            $('body')
+                .append( '<h4>i18nLink(..)</h4>' )
+                .append( $.i18nLink('fcoo') )
+                .append( '<br>' )
+                .append( $.i18nLink('dmi') )
+                .append( '<br>' )
+                .append( $.i18nLink('do_not_exists') )
+                .append( '<br>' )
+                .append( '<h4>i18n("parameter:..")</h4>' )
+                .append( $('<div/>').i18n('parameter:sea_water_salinity') )
+                .append( $('<div/>').i18n('parameter:WTMP') )
+                .append( '<h4>i18n("unit:..")</h4>' )
+                .append( $('<div/>').i18n('unit:km h-1') )
+                .append( $('<div/>').i18n('unit:kg/m2', 'html') )
+                .append( $('<div/>').i18n('unit:degC', 'html') )
+                .append( '<h4>i18n("name:fcoo", "title")</h4>' )
+                .append( $('<div/>').text('Hover me!').i18n('name:fcoo', 'title') )
+
+        }(jQuery));
 
 	</script>
 </body>

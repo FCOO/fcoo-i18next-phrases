@@ -1,10 +1,11 @@
 # fcoo-i18next-phrases
->
-
+[namespace-key-lang]:https://github.com/FCOO/i18next-phrases#phrase-namespace-key-lang
+[key-namespace-lang]:https://github.com/FCOO/i18next-phrases#key-phrase-key-namespace-lang
 
 ## Description
 Global translations/phrases for i18next in FCOO web applications
-See [src/fcoo-i18next-phrases.js](https://gitlab.com/FCOO/fcoo-i18next-phrases/blob/src/fcoo-i18next-phrases.js) to see all keys and translations
+All the translations are in separate json-files listed below. Each json-file in located in `/src` and represent one or more namespace
+
 
 
 ## Installation
@@ -12,26 +13,39 @@ See [src/fcoo-i18next-phrases.js](https://gitlab.com/FCOO/fcoo-i18next-phrases/b
 `bower install https://github.com/FCOO/fcoo-i18next-phrases.git --save`
 
 ## Usage
-The following namespaces are used:
+Below is a section for each json-file included with namespace(s), file name and format ().
 
-### `name`
+### Namespaces: `abbr`/`name`/`link`. File: [fcoo-i18next-abbr-name-link.json](https://gitlab.com/FCOO/fcoo-i18next-phrases/blob/src/fcoo-i18next-abbr-name-link.json). Format: [key-namespace-lang]
+
+#### abbr
+The national abbreviation of institutes, organisations, models etc.
+Only needed if $.i18nLink if `key.toUpperCase` is different from abbr
+E.g. 
+if key = `'fcoo'` and abbr = `'FCOO'` => no need for 'abbr:fcoo'
+if key = `'abcd'` and abbr = `'abcd'` or `'A.B.C.D.'` => abbr needed
+
+#### `name`
 Full name of institutions or organizations. 
 Use national abbreviation as key and include name in national language. 
 E.g. key = `name:bsh`, translation `en:"Federal Maritime and Hydrographic Agency", de:"Bundesamt für Seeschifffahrt und Hydrographie"`
 
-### `link`
+#### `link`
 The link-address to a home-page. Use the address as key. 
 E.g. key = `link:dmi.dk`, translation `da:"http://dmi.dk"`, `en:"http://dmi.dk/en"`
+
+
+### Namespace: `parameter` File: [fcoo-i18next-parameter.json](https://gitlab.com/FCOO/fcoo-i18next-phrases/blob/src/fcoo-i18next-parameter.json). Format: [namespace-key-lang]
+
+Using [CF Conventions and Metadata](http://cfconventions.org/index.html) -> [Standard Names](http://cfconventions.org/standard-names.html) as key for names of physical parameters
+WMO -> [PARAMETERS & UNITS](http://www.nco.ncep.noaa.gov/pmb/docs/on388/table2.html)
+
+E.g. key = `sea_water_salinity`, translation `da:"Salinitet", en:"Salinity"`
+
 
 ### `button`
 Standard text to buttons. 
 E.g. key = `button:close`, translation `da: "Luk", en:"Close"`
 
-### `parameter`
-Physical parameter. Using XXX codes for parameter. See http://www.nco.ncep.noaa.gov/pmb/docs/on388/table2.html
-E.g. 
- key = `parameter:wind`, translation `da:"vindhastighed", en:"wind speed"`
- key `parameter:wdir`, translation `da:"vindretning", en:"wind direction"`
 
 ### `unit`
 Physical units.
