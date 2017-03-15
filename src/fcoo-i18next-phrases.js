@@ -45,11 +45,11 @@
     
     
     //Load "fcoo-i18next-abbr-name-link.json"
-    i18next.loadKeyPhrases( 'fcoo-i18next-abbr-name-link.json', callback );
+    i18next.loadKeyPhrases( 'data/fcoo-i18next-abbr-name-link.json', callback );
 
     
     //Load "fcoo-parameter.json"
-    loadJSON( "fcoo-parameter.json", 
+    loadJSON( "data/fcoo-parameter.json", 
         function( data ) {
             //Create translation of units with WMO-unit and/or CF Standard Name units as key
             $.each( data.units, function( index, unit ){

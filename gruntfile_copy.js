@@ -20,8 +20,8 @@ module.exports = function(grunt) {
 
         //** copy **
         copy: {
-            dev : { files: [ {expand: true, flatten: true, filter: 'isFile', src: ['src/*.json'], dest: 'demo/'} ] },
-            prod: { files: [ {expand: true, flatten: true, filter: 'isFile', src: ['src/*.json'], dest: 'dist/'} ] }
+            dev : { files: [ {expand: true, flatten: true, filter: 'isFile', src: ['src/data/*.json'], dest: 'demo/data/'} ] },
+            prod: { files: [ {expand: true, flatten: true, filter: 'isFile', src: ['src/data/*.json'], dest: 'dist/data/'} ] }
         }
     });//end of grunt.initConfig({...
 

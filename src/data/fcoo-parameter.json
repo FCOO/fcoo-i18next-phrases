@@ -3,77 +3,66 @@
         {
             "WMO_unit": "m/s",
             "CF_unit" : "m s-1",
-            "da"      : "",
             "en"      : "m/s"
         },
 
         {
             "WMO_unit": "kg/m2",
             "CF_unit" : "kg m-2",
-            "da"      : "",
             "en"      : "kg/m<sup>2</sup>"
         },
 
         {
             "WMO_unit": "%",
             "CF_unit" : "1",
-            "da"      : "",
             "en"      : "%"
         },
 
         {
             "WMO_unit": "proportion",
             "CF_unit" : "1",
-            "da"      : "",
             "en"      : "%"
         },
 
         {
             "WMO_unit": "Pa",
             "CF_unit" : "Pa",
-            "da"      : "",
             "en"      : "Pa"
         },
 
         {
             "WMO_unit": "m",
             "CF_unit" : "m",
-            "da"      : "",
             "en"      : "m"
         },
 
         {
             "WMO_unit": "deg true",
             "CF_unit" : "degree",
-            "da"      : "",
             "en"      : "&deg;"
         },
 
         {
             "WMO_unit": "kg/m2/s",
             "CF_unit" : "kg m-2 s-1",
-            "da"      : "",
             "en"      : "kg/m<sup>2</sup>/s"
         },
 
         {
             "WMO_unit": "kg/kg",
             "CF_unit" : "1e-3",
-            "da"      : "",
             "en"      : "psu"
         },
 
         {
             "WMO_unit": "kg/m3",
             "CF_unit" : "kg m-3",
-            "da"      : "",
             "en"      : "kg/m<sup>3</sup>"
         },
 
         {
             "WMO_unit": "K",
             "CF_unit" : "K",
-            "da"      : "",
             "en"      : "K"
         },
 
@@ -95,7 +84,6 @@
         {
             "WMO_unit": "degC",
             "CF_unit" : "degC",
-            "da"      : "",
             "en"      : "&deg;C"
         }
 
