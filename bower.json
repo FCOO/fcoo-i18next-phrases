@@ -1,15 +1,13 @@
 {
   "name": "fcoo-i18next-phrases",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "homepage": "https://github.com/FCOO/fcoo-i18next-phrases",
   "authors": [
     "Niels Holt"
   ],
   "description": "",
   "main": [
-    "dist/fcoo-i18next-phrases.js",
-    "dist/fcoo-i18next-abbr-name-link.json",
-    "dist/fcoo-parameter.json"
+    "dist/fcoo-i18next-phrases.js"
   ],
   "repository": {
     "type": "git",
