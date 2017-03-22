@@ -176,13 +176,9 @@
                     .append( 
                         $('<span/>')
                             .i18n('abbr:'+key, {defaultValue: key.toUpperCase()} ) 
-                            .localize()
                     );
                      
     };
 
-    //Initialize/ready 
-//	$(function() { 
-//	});
 
 }(this, document));
