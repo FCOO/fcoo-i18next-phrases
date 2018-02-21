@@ -1,5 +1,5 @@
 /****************************************************************************
-	fcoo-i18next-phrases.js, 
+	fcoo-i18next-phrases.js,
 
 	(c) 2017, FCOO
 
@@ -8,81 +8,68 @@
 
 ****************************************************************************/
 
-(function (i18next/*, window, document, undefined*/) {
+(function (i18next, Promise/*, window, document, undefined*/) {
 	"use strict";
 
     //Initialize i18next if not already done
     if ($.isEmptyObject(i18next.options)){
         window.i18next.init({
-            initImmediate     : false, //prevents resource loading in init function inside setTimeout (default async behaviour)
-            resources         : {},    //Empty bagend
-            lng        : 'da',
-            fallbackLng:'en'
-       
+            initImmediate: false, //prevents resource loading in init function inside setTimeout (default async behaviour)
+            resources    : {},    //Empty bagend
+            lng          : 'da',
+            fallbackLng  :'en'
+
         });
      }
 
+    var loadOptions = {
+        finally: function() { $('*').localize(); }
+    };
 
-    function callback( err ){
-        if (err){
-            //TODO          
-        }
-        else { 
-            $('*').localize();
-        }
-    }
-    
-    function loadJSON( jsonFileName, callback, onFail ){
-        var jqxhr = $.getJSON( jsonFileName );
-
-        if (callback)
-            jqxhr.done( callback );
-            
-        if (onFail)
-            jqxhr.fail( onFail );
-    }
-
-    
-    
-    //Load "fcoo-i18next-abbr-name-link.json"
-    i18next.loadKeyPhrases( 'data/fcoo-i18next-abbr-name-link.json', callback );
-
-    
-    //Load "fcoo-parameter.json"
-    loadJSON( "data/fcoo-parameter.json", 
-        function( data ) {
-            //Create translation of units with WMO-unit and/or CF Standard Name units as key
-            $.each( data.units, function( index, unit ){
-                if (unit.en){
-                    if (unit.WMO_unit)
-                        i18next.addPhrase( 'unit', unit.WMO_unit, unit );                  
-                    if (unit.CF_unit)
-                        i18next.addPhrase( 'unit', unit.CF_unit, unit );                  
-                }
-            });
-
-            //Create translation of paramter-names with WMO-abbr and/or CF Standard Name as key
-            $.each( data.parameters, function( index, parameter ){
-                if (parameter.en){
-                    if (parameter.WMO_abbr)
-                        i18next.addPhrase( 'parameter', parameter.WMO_abbr, parameter );                  
-                    if (parameter.CF_SN)
-                        i18next.addPhrase( 'parameter', parameter.CF_SN, parameter );                  
-                }
-            });
-            $('*').localize();
-        },
-        
-        function( /*err*/ ){
-            //TODO
-        }
+    //Load json-files with i18next-phrases. See README.md for description of format
+    i18next.loadKeyPhrases(
+        [
+            'data/fcoo-i18next-abbr-name-link.json'
+        ],
+        loadOptions
     );
 
-    
-    
+    i18next.loadPhrases(
+        [
+            'data/fcoo-i18next-error.json',
+        ],
+        loadOptions
+    );
+
+    //Load "fcoo-i18next-parameter.json"
+    Promise.getJSON( "data/fcoo-i18next-parameter.json", {}, function( data ) {
+        //Create translation of units with WMO-unit and/or CF Standard Name units as key
+        $.each( data.units, function( index, unit ){
+            if (unit.en){
+                if (unit.WMO_unit)
+                    i18next.addPhrase( 'unit', unit.WMO_unit, unit );
+                if (unit.CF_unit)
+                    i18next.addPhrase( 'unit', unit.CF_unit,  unit );
+            }
+        });
+
+        //Create translation of paramter-names with WMO-abbr and/or CF Standard Name as key
+        $.each( data.parameters, function( index, parameter ){
+            if (parameter.en){
+                if (parameter.WMO_abbr)
+                    i18next.addPhrase( 'parameter', parameter.WMO_abbr, parameter );
+                if (parameter.CF_SN)
+                    i18next.addPhrase( 'parameter', parameter.CF_SN, parameter );
+            }
+        });
+        $('*').localize();
+    });
+
+
+
     /*
     Namespace button
-    Standard text to buttons. 
+    Standard text to buttons.
     E.g. button:close = {da: "Luk", en:"Close"}
     */
 
@@ -90,7 +77,7 @@
     /*
     Namespace parameter
     Physical parameter. Using XXX codes for parameter. See http://www.nco.ncep.noaa.gov/pmb/docs/on388/table2.html
-    E.g. 
+    E.g.
         parameter:wind = {da:"vindhastighed", en:"wind speed"}
         parameter:wdir = {da:"vindretning", en:"wind direction"}
     */
@@ -130,10 +117,31 @@
           'fraction': 'fraktion',
           'meters': 'meter'
     }
-    
+
 
 */
-
+/* TODO
+           var msg = 'Web map metadata request for ' + jqXHR.url + ' failed. Reason: ';
+            if (jqXHR.status === 0) {
+                msg += 'No network connection.';
+                this.options.onMetadataError(new MetadataError(msg));
+            } else {
+                if (jqXHR.status == 404) {
+                    msg += 'Requested page not found. [404]';
+                } else if (jqXHR.status == 500) {
+                    msg += 'Internal Server Error [500].';
+                } else if (textStatus === 'parsererror') {
+                    msg += 'Requested JSON parse failed.';
+                } else if (textStatus === 'timeout') {
+                    msg += 'Time out error.';
+                } else if (textStatus === 'abort') {
+                    msg += 'Ajax request aborted.';
+                } else {
+                    msg += 'Unknown error.\n' + jqXHR.responseText;
+                }
+                var err = new MetadataError(msg);
+                this.options.onMetadataError(err);
+*/
 
 
     /*
@@ -143,10 +151,10 @@
     */
 
 
-    //Initialize/ready 
-	$(function() { 
+    //Initialize/ready
+	$(function() {
 
-	
+
 	}); //End of initialize/ready
 
-}(this.i18next, this, document));
+}(this.i18next, this.Promise, this, document));

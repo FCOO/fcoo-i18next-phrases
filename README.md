@@ -15,7 +15,7 @@ All the translations are in separate json-files listed below. Each json-file in 
 ## Usage
 Below is a section for each json-file included with namespace(s), file name and format ().
 
-### Namespaces: `abbr`/`name`/`link`. File: [fcoo-i18next-abbr-name-link.json](https://gitlab.com/FCOO/fcoo-i18next-phrases/blob/src/fcoo-i18next-abbr-name-link.json). Format: [key-namespace-lang]
+### Namespaces: `abbr`/`name`/`link`. File: [fcoo-i18next-abbr-name-link.json](https://gitlab.com/FCOO/fcoo-i18next-phrases/blob/src/data/fcoo-i18next-abbr-name-link.json). Format: [key-namespace-lang]
 
 #### abbr
 The national abbreviation of institutes, organisations, models etc.
@@ -34,27 +34,25 @@ The link-address to a home-page. Use the address as key.
 E.g. key = `link:dmi.dk`, translation `da:"http://dmi.dk"`, `en:"http://dmi.dk/en"`
 
 
-### Namespace: `parameter` File: [fcoo-i18next-parameter.json](https://gitlab.com/FCOO/fcoo-i18next-phrases/blob/src/fcoo-i18next-parameter.json). Format: [namespace-key-lang]
+### Namespace: `parameter` and `unit` File: [fcoo-i18next-parameter.json](https://gitlab.com/FCOO/fcoo-i18next-phrases/blob/src/data/fcoo-i18next-parameter.json). Format: [namespace-key-lang]
 
 Using [CF Conventions and Metadata](http://cfconventions.org/index.html) -> [Standard Names](http://cfconventions.org/standard-names.html) as key for names of physical parameters
 WMO -> [PARAMETERS & UNITS](http://www.nco.ncep.noaa.gov/pmb/docs/on388/table2.html)
 
-E.g. key = `sea_water_salinity`, translation `da:"Salinitet", en:"Salinity"`
+#### `parameter`
+E.g. key = `parameter:sea_water_salinity`, translation `da:"Salinitet", en:"Salinity"`
 
-
-### `button`
-Standard text to buttons. 
-E.g. key = `button:close`, translation `da: "Luk", en:"Close"`
-
-
-### `unit`
+#### `unit`
 Physical units.
-E.g. `unit:metre = {da:"meter", en:"metre"}`
+E.g. key = `unit:metre`, translation `da:"meter", en:"metre"`
 
 
+### Namespace: `error` File: [fcoo-i18next-error.json](https://gitlab.com/FCOO/fcoo-i18next-phrases/blob/src/data/fcoo-i18next-error.json). Format: [namespace-key-lang]
+Translation of standard html errors and descriptions
 
-
-
+E.g. 
+key = `error:400`, translation `da:"Forkert anmodning", en:"Bad Request"`
+key = `error:409-desc`, translation `en:"The request could not be completed because of a conflict in the request"`
 
 
 ## Copyright and License
