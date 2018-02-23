@@ -12466,19 +12466,19 @@ return jQuery;
 ;
 /* @preserve
  * The MIT License (MIT)
- *
+ * 
  * Copyright (c) 2013-2017 Petka Antonov
- *
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * 
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
@@ -12486,7 +12486,7 @@ return jQuery;
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- *
+ * 
  */
 /**
  * bluebird build version 3.5.1
@@ -15981,28 +15981,28 @@ _dereq_('./some.js')(Promise, PromiseArray, apiRejection);
 _dereq_('./filter.js')(Promise, INTERNAL);
 _dereq_('./each.js')(Promise, INTERNAL);
 _dereq_('./any.js')(Promise);
-
-    util.toFastProperties(Promise);
-    util.toFastProperties(Promise.prototype);
-    function fillTypes(value) {
-        var p = new Promise(INTERNAL);
-        p._fulfillmentHandler0 = value;
-        p._rejectionHandler0 = value;
-        p._promise0 = value;
-        p._receiver0 = value;
-    }
-    // Complete slack tracking, opt out of field-type tracking and
-    // stabilize map
-    fillTypes({a: 1});
-    fillTypes({b: 2});
-    fillTypes({c: 3});
-    fillTypes(1);
-    fillTypes(function(){});
-    fillTypes(undefined);
-    fillTypes(false);
-    fillTypes(new Promise(INTERNAL));
-    debug.setBounds(Async.firstLineError, util.lastLineError);
-    return Promise;
+                                                         
+    util.toFastProperties(Promise);                                          
+    util.toFastProperties(Promise.prototype);                                
+    function fillTypes(value) {                                              
+        var p = new Promise(INTERNAL);                                       
+        p._fulfillmentHandler0 = value;                                      
+        p._rejectionHandler0 = value;                                        
+        p._promise0 = value;                                                 
+        p._receiver0 = value;                                                
+    }                                                                        
+    // Complete slack tracking, opt out of field-type tracking and           
+    // stabilize map                                                         
+    fillTypes({a: 1});                                                       
+    fillTypes({b: 2});                                                       
+    fillTypes({c: 3});                                                       
+    fillTypes(1);                                                            
+    fillTypes(function(){});                                                 
+    fillTypes(undefined);                                                    
+    fillTypes(false);                                                        
+    fillTypes(new Promise(INTERNAL));                                        
+    debug.setBounds(Async.firstLineError, util.lastLineError);               
+    return Promise;                                                          
 
 };
 
@@ -16790,8 +16790,8 @@ function ReductionPromiseArray(promises, fn, initialValue, _each) {
 util.inherits(ReductionPromiseArray, PromiseArray);
 
 ReductionPromiseArray.prototype._gotAccum = function(accum) {
-    if (this._eachValues !== undefined &&
-        this._eachValues !== null &&
+    if (this._eachValues !== undefined && 
+        this._eachValues !== null && 
         accum !== INTERNAL) {
         this._eachValues.push(accum);
     }
@@ -19177,7 +19177,7 @@ return index;
 })));
 ;
 /****************************************************************************
-	jquery-i18next-phrases.js,
+	jquery-i18next-phrases.js, 
 
 	(c) 2017, FCOO
 
@@ -19188,19 +19188,19 @@ return index;
 
 (function ($, window/*, document, undefined*/) {
 	"use strict";
-
+	
     /***********************************************************
-    Initialize jquery-i18next - i18next plugin for jquery
+    Initialize jquery-i18next - i18next plugin for jquery 
     https://github.com/i18next/jquery-i18next
     ***********************************************************/
     var jQuery_i18n_selectorAttr = 'data-i18n',    // selector for translating elements
         jQuery_i18n_targetAttr   = 'i18n-target',  // data-() attribute to grab target element to translate (if diffrent then itself)
         jQuery_i18n_optionsAttr  = 'i18n-options'; // data-() attribute that contains options, will load/set if useOptionsAttr = true
 
-
+    
     window.jqueryI18next.init(
-        window.i18next/*i18nextInstance*/,
-        $,
+        window.i18next/*i18nextInstance*/, 
+        $, 
         {
             tName         : 't',                        // --> appends $.t = i18next.t
             i18nName      : 'i18n',                     // --> appends $.i18n = i18next
@@ -19215,12 +19215,12 @@ return index;
 
 
     /***********************************************************
-    Add new methods to jQuery prototype:
+    Add new methods to jQuery prototype: 
     $.fn.i18n( htmlOrKeyOrPhrase[, attribute][, options] )
     Add/updates the "data-i18n" attribute
 
-    htmlOrKeyOrPhrase = simple html-string ( "This will <u>always</u> be in English" ) OR
-                        i18next-key ( "myNS:myKey" ) OR
+    htmlOrKeyOrPhrase = simple html-string ( "This will <u>always</u> be in English" ) OR 
+                        i18next-key ( "myNS:myKey" ) OR 
                         a phrase-object - see langValue in i18next.addPhrase ( {da:"Dette er en test", en:"This is a test"} ) OR
                         a string representing a phrase-object ( '{"da":"Dette er en test", "en":"This is a test"}' )
     ***********************************************************/
@@ -19228,14 +19228,14 @@ return index;
         tempNS = '__TEMP__';
 
     $.fn.i18n = function( htmlOrKeyOrPhrase ) {
-        var options = null,
-            attribute = '',
+        var options = null, 
+            attribute = '', 
             argument,
-            keyFound = true,
+            keyFound = true, 
             key = htmlOrKeyOrPhrase;
 
         for (var i=1; i<arguments.length; i++ ){
-            argument = arguments[i];
+            argument = arguments[i];              
             switch ($.type(argument)){
               case 'object': options = argument; break;
               case 'string': attribute = argument; break;
@@ -19247,7 +19247,7 @@ return index;
             htmlOrKeyOrPhrase = JSON.parse(htmlOrKeyOrPhrase);
         }
         catch (e) {
-            htmlOrKeyOrPhrase = original;
+            htmlOrKeyOrPhrase = original; 
         }
 
         //Convert number back to string
@@ -19262,7 +19262,7 @@ return index;
             key = 'jqueryfni18n' + tempKeyId++;
             window.i18next.addPhrase( tempNS, key, htmlOrKeyOrPhrase );
             key = tempNS+':'+key;
-        }
+        }    
 
         return this.each(function() {
             var $this = $(this),
@@ -19272,20 +19272,20 @@ return index;
                 newStr = attribute ? '[' + attribute + ']' + key : key,
                 keep;
             oldData = oldData ? oldData.split(';') : [];
-
+            
             for (var i=0; i<oldData.length; i++ ){
                 oldStr = oldData[i];
                 keep = true;
                 //if the new key has an attribute => remove data with '[attribute]'
                 if (attribute && (oldStr.indexOf('[' + attribute + ']') == 0))
-                    keep = false;
+                    keep = false;                      
                 //if the new key don't has a attribute => only keep other attributes
-                if (!attribute && (oldStr.indexOf('[') == -1))
+                if (!attribute && (oldStr.indexOf('[') == -1)) 
                     keep = false;
                 if (keep)
                     newData.push( oldStr );
             }
-            newData.push( newStr);
+            newData.push( newStr);                                
 
             //Set data-i18n
             $this.attr( jQuery_i18n_selectorAttr, newData.join(';') );
@@ -19302,7 +19302,7 @@ return index;
                     $(this).html( htmlOrKeyOrPhrase );
             }
             //Update contents
-            $this.localize();
+            $this.localize();        
 
         });
     };
