@@ -20,8 +20,8 @@ module.exports = function(grunt) {
                 "beforeProdCmd": "",  //Cmd to be run at the start of prod-task. Multi cmd can be seperated by "&"
                 "beforeDevCmd" : "",  //Cmd to be run at the start of dev-task. Multi cmd can be seperated by "&"
 
-                "afterProdCmd" : "grunt copy:prod --gruntfile gruntfile_copy.js", //Cmd to be run at the end of prod-task: copy json-files from src to dist
-                "afterDevCmd"  : "grunt copy:dev --gruntfile gruntfile_copy.js",  //Cmd to be run at the end of dev-task: copy copy json-files from src to demo
+                "afterProdCmd" : "", //Cmd to be run at the end of prod-task: copy json-files from src to dist
+                "afterDevCmd"  : "", //Cmd to be run at the end of dev-task: copy copy json-files from src to demo
 
                 "DEBUG"        : false   //if true different debugging is on and the tempoary files are not deleted
             }

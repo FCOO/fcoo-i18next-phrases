@@ -17,7 +17,7 @@
             initImmediate: false, //prevents resource loading in init function inside setTimeout (default async behaviour)
             resources    : {},    //Empty bagend
             lng          : 'da',
-            fallbackLng  :'en'
+            fallbackLng  : 'en'
 
         });
      }
@@ -26,47 +26,62 @@
 	$(function() {
 
         var loadOptions = {
-            finally: function() { $('*').localize(); }
-        };
+                finally: function() { $('*').localize(); }
+            };
 
-        //Load json-files with i18next-phrases. See README.md for description of format
-        i18next.loadKeyPhrases(
+        function fullFileName( fileName ){
+            return window.fcoo.dataFilePath("fcoo-i18next-phrases", fileName);
+        }
+
+
+        //Load key-phrase-files = { key: { namespace1: {..}, namespace2:{...} }*N }. See README.md for description of format
+        $.each(
             [
-                'data/fcoo-i18next-abbr-name-link.json'
+                'fcoo-i18next-abbr-name-link.json'
             ],
-            loadOptions
+            function(index, fileName){ i18next.loadKeyPhrases( fullFileName( fileName ), loadOptions ); }
         );
 
-        i18next.loadPhrases(
+
+        //Load phrase-files = { namespace: { key1: {..}, key2:{...} }*N }. See README.md for description of format
+        $.each(
             [
-                'data/fcoo-i18next-error.json',
+                'fcoo-i18next-error.json'
             ],
-            loadOptions
+            function(index, fileName){ i18next.loadPhrases( fullFileName( fileName ), loadOptions ); }
         );
+
 
         //Load "fcoo-i18next-parameter.json"
-        Promise.getJSON( "data/fcoo-i18next-parameter.json", {}, function( data ) {
-            //Create translation of units with WMO-unit and/or CF Standard Name units as key
-            $.each( data.units, function( index, unit ){
-                if (unit.en){
-                    if (unit.WMO_unit)
-                        i18next.addPhrase( 'unit', unit.WMO_unit, unit );
-                    if (unit.CF_unit)
-                        i18next.addPhrase( 'unit', unit.CF_unit,  unit );
-                }
-            });
+        Promise.getJSON(
+            fullFileName("fcoo-i18next-parameter.json"),
+            $.extend( {},
+                loadOptions, {
+                resolve: function( data ) {
+                    //Create translation of units with WMO-unit and/or CF Standard Name units as key
+                    $.each( data.units, function( index, unit ){
+                        if (unit.en){
+                            if (unit.WMO_unit)
+                                i18next.addPhrase( 'unit', unit.WMO_unit, unit );
+                            if (unit.CF_unit)
+                                i18next.addPhrase( 'unit', unit.CF_unit,  unit );
+                        }
+                    });
 
-            //Create translation of paramter-names with WMO-abbr and/or CF Standard Name as key
-            $.each( data.parameters, function( index, parameter ){
-                if (parameter.en){
-                    if (parameter.WMO_abbr)
-                        i18next.addPhrase( 'parameter', parameter.WMO_abbr, parameter );
-                    if (parameter.CF_SN)
-                        i18next.addPhrase( 'parameter', parameter.CF_SN, parameter );
+                    //Create translation of paramter-names with WMO-abbr and/or CF Standard Name as key
+                    $.each( data.parameters, function( index, parameter ){
+                        if (parameter.en){
+                            if (parameter.WMO_abbr)
+                                i18next.addPhrase( 'parameter', parameter.WMO_abbr, parameter );
+                            if (parameter.CF_SN)
+                                i18next.addPhrase( 'parameter', parameter.CF_SN, parameter );
+                        }
+                    });
+//                  $('*').localize();
                 }
-            });
-            $('*').localize();
-        });
+            })
+        );
+
 
 
         /*
