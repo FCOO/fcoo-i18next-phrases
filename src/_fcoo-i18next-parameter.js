@@ -1,5 +1,5 @@
 /****************************************************************************
-	fcoo-i18next-parameter.js, 
+	fcoo-i18next-parameter.js,
 
 	(c) 2017, FCOO
 
@@ -14,7 +14,7 @@
     /*
     Namespace parameter
     Physical parameter. Using XXX codes for parameter. See http://www.nco.ncep.noaa.gov/pmb/docs/on388/table2.html
-    E.g. 
+    E.g.
         parameter:wind = {da:"vindhastighed", en:"wind speed"}
         parameter:wdir = {da:"vindretning", en:"wind direction"}
     */
@@ -56,7 +56,7 @@
           'fraction': 'fraktion',
           'meters': 'meter'
     }
-    
+
 
 */
     /*
@@ -65,20 +65,8 @@
     E.g. unit:metre = {da:"meter", en:"metre"}
     */
 
-    
+
     var parameters = [
-
-    
-    
-    
-    
-    
-    ];    
-    
-    //Initialize/ready 
-	$(function() { 
-
-	
-	}); //End of initialize/ready
+    ];
 
 }(this, document));
