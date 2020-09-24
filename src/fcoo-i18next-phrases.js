@@ -8,8 +8,10 @@
 
 ****************************************************************************/
 
-(function (i18next, Promise/*, window, document, undefined*/) {
+(function ($, i18next/*, window, document, undefined*/) {
 	"use strict";
+
+    var ns = window.fcoo = window.fcoo || {};
 
     //Initialize i18next if not already done
     if ($.isEmptyObject(i18next.options)){
@@ -22,64 +24,45 @@
         });
      }
 
-    //Load phrase-files
-    var loadOptions = {
-            finally: function() { $('*').localize(); }
-        };
-
-    function fullFileName( fileName ){
-        return window.fcoo.dataFilePath("fcoo-i18next-phrases", fileName);
+    function addPromise(fileName, resolve, context){
+        ns.promiseList.append({
+            fileName: ns.dataFilePath("fcoo-i18next-phrases", fileName),
+            resolve : $.proxy(resolve, context)
+        });
     }
 
-
     //Load key-phrase-files = { key: { namespace1: {..}, namespace2:{...} }*N }. See README.md for description of format
-    $.each(
-        [
-            'fcoo-i18next-abbr-name-link.json'
-        ],
-        function(index, fileName){ i18next.loadKeyPhrases( fullFileName( fileName ), loadOptions ); }
-    );
-
+    $.each(['fcoo-i18next-abbr-name-link.json'], function(index, fileName){
+        addPromise(fileName, i18next.addBundleKeyPhrases, i18next);
+    });
 
     //Load phrase-files = { namespace: { key1: {..}, key2:{...} }*N }. See README.md for description of format
-    $.each(
-        [
-            'fcoo-i18next-error.json'
-        ],
-        function(index, fileName){ i18next.loadPhrases( fullFileName( fileName ), loadOptions ); }
-    );
-
+    $.each(['fcoo-i18next-error.json'], function(index, fileName){
+        addPromise(fileName, i18next.addBundlePhrases, i18next);
+    });
 
     //Load "fcoo-i18next-parameter.json"
-    Promise.getJSON(
-        fullFileName("fcoo-i18next-parameter.json"),
-        $.extend( {},
-            loadOptions, {
-            resolve: function( data ) {
-                //Create translation of units with WMO-unit and/or CF Standard Name units as key
-                $.each( data.units, function( index, unit ){
-                    if (unit.en){
-                        if (unit.WMO_unit)
-                            i18next.addPhrase( 'unit', unit.WMO_unit, unit );
-                        if (unit.CF_unit)
-                            i18next.addPhrase( 'unit', unit.CF_unit,  unit );
-                    }
-                });
-
-                //Create translation of paramter-names with WMO-abbr and/or CF Standard Name as key
-                $.each( data.parameters, function( index, parameter ){
-                    if (parameter.en){
-                        if (parameter.WMO_abbr)
-                            i18next.addPhrase( 'parameter', parameter.WMO_abbr, parameter );
-                        if (parameter.CF_SN)
-                            i18next.addPhrase( 'parameter', parameter.CF_SN, parameter );
-                    }
-                });
-//                  $('*').localize();
+    addPromise("fcoo-i18next-parameter.json", function(data){
+        //Create translation of units with WMO-unit and/or CF Standard Name units as key
+        $.each( data.units, function( index, unit ){
+            if (unit.en){
+                if (unit.WMO_unit)
+                    i18next.addPhrase( 'unit', unit.WMO_unit, unit );
+                if (unit.CF_unit)
+                    i18next.addPhrase( 'unit', unit.CF_unit,  unit );
             }
-        })
-    );
+        });
 
+        //Create translation of paramter-names with WMO-abbr and/or CF Standard Name as key
+        $.each( data.parameters, function( index, parameter ){
+            if (parameter.en){
+                if (parameter.WMO_abbr)
+                    i18next.addPhrase( 'parameter', parameter.WMO_abbr, parameter );
+                if (parameter.CF_SN)
+                    i18next.addPhrase( 'parameter', parameter.CF_SN, parameter );
+            }
+        });
+    });
 
 
     /*
@@ -161,4 +144,4 @@
     E.g. unit:metre = {da:"meter", en:"metre"}
 */
 
-}(this.i18next, this.Promise, this, document));
+}(jQuery, this.i18next, this, document));

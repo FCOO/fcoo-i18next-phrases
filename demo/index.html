@@ -61,6 +61,13 @@
 
         }(jQuery));
 
+
+        fcoo.promiseList.options.finally = function(){
+            $('*').localize();
+            console.log('Davs');
+        };
+        fcoo.promiseList.getAll({
+        });
 	</script>
 </body>
 </html>
