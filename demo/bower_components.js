@@ -10882,12 +10882,16 @@ return jQuery;
 
     fcoo.LOCAL_DATA: {boolean}
     fcoo.dataFilePath:
-        function(subDir:STRING, fileName:STRING) OR
+        function([mainDir:STRING|BOOLEAN], subDir:STRING, fileName:STRING) OR
         function(pathAndFileName:STRING) OR
-        function(subAndFileName:{subDirName;STRING, fileName:STRING})
+        function(subAndFileName:{mainDirNa<me:STRING|BOOLEAN, subDirName;STRING, fileName:STRING})
+
+    mainDir = STRING or BOOLEAN. if true => "dynamic", if false => "static"
 
     if fcoo.LOCAL_DATA == false:
     fcoo.dataFilePath("theSubDir", "fileName.json") returns "https://app.fcoo.dk/static/theSubDir/fileName.json"
+    fcoo.dataFilePath(false, "theSubDir", "fileName.json") returns "https://app.fcoo.dk/static/theSubDir/fileName.json"
+    fcoo.dataFilePath(true, "theSubDir", "fileName.json") returns "https://app.fcoo.dk/dynamic/theSubDir/fileName.json"
 
     if fcoo.LOCAL_DATA == true:
     fcoo.dataFilePath("theSubDir", "fileName.json") returns "/src/data/_fileName.json"
@@ -10898,27 +10902,41 @@ return jQuery;
 	"use strict";
 
 	//Create fcoo-namespace
-	window.fcoo = window.fcoo || {};
-    var ns = window.fcoo,
-        fcooDataPath = 'https://app.fcoo.dk/static/';
+    var ns     = window.fcoo = window.fcoo || {},
+        nsPath = ns.path = ns.path || {};
 
     ns.LOCAL_DATA = false;
 
-    ns.dataFilePath = function(){
+
+    //Set default protocol and domain
+    nsPath.protocol = 'https://';
+    nsPath.domain = 'app.fcoo.dk/';
+
+    function dataFileName(){
         // Detect mode
-        var subDir, fileName;
+        var mainDir, subDir, fileName;
+
+        if (arguments.length == 3){
+            //(mainDir: STRING|BOOLEAN, subDir:STRING, fileName:STRING)
+            mainDir  = arguments[0];
+            subDir   = arguments[1];
+            fileName = arguments[2];
+        }
+        else
         if (arguments.length == 2){
             //(subDir:STRING, fileName:STRING)
+            mainDir  = false,   //=> default 'static'
             subDir   = arguments[0];
             fileName = arguments[1];
         }
         else
         if (arguments.length == 1){
-            if ($.type(arguments[0]) == 'string')
+            if (typeof arguments[0] == 'string')
                 //(pathAndFileName:STRING)
                 return arguments[0];
             else {
-                //(subAndFileName:{subDirName;STRING, fileName:STRING})
+                //({mainDir:STRING|BOOLEAN, subDirName:STRING, fileName:STRING})
+                mainDir  = arguments[0].mainDir || false;
                 subDir   = arguments[0].subDir;
                 fileName = arguments[0].fileName;
             }
@@ -10927,8 +10945,18 @@ return jQuery;
         if (ns.LOCAL_DATA === true)
             return '/src/data/_' + fileName;
         else
-            return fcooDataPath + (subDir ? subDir + '/' : '') + fileName;
-    };
+            return  nsPath.protocol +
+                    nsPath.domain +
+                    (mainDir ? (mainDir === true ? 'dynamic' : mainDir) : 'static') + '/' +
+                    (subDir ? subDir + '/' : '') +
+                    fileName;
+    }
+
+    //Export method
+    nsPath.dataFileName = dataFileName;
+
+    //Backward compability
+    ns.dataFilePath = dataFileName;
 
 }(this, document));
 
@@ -16618,7 +16646,7 @@ return jQuery;
 
     var keys = ['Hours', 'Minutes', 'Seconds', 'Milliseconds'];
     var maxValues = [24, 60, 60, 1000];
-
+    
     // Capitalize first letter
     key = key.charAt(0).toUpperCase() + key.slice(1).toLowerCase();
 
@@ -16665,19 +16693,19 @@ return jQuery;
 ;
 /* @preserve
  * The MIT License (MIT)
- *
+ * 
  * Copyright (c) 2013-2018 Petka Antonov
- *
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * 
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
@@ -16685,7 +16713,7 @@ return jQuery;
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- *
+ * 
  */
 /**
  * bluebird build version 3.7.2
@@ -20277,28 +20305,28 @@ _dereq_('./using.js')(Promise, apiRejection, tryConvertToPromise, createContext,
 _dereq_('./any.js')(Promise);
 _dereq_('./each.js')(Promise, INTERNAL);
 _dereq_('./filter.js')(Promise, INTERNAL);
-
-    util.toFastProperties(Promise);
-    util.toFastProperties(Promise.prototype);
-    function fillTypes(value) {
-        var p = new Promise(INTERNAL);
-        p._fulfillmentHandler0 = value;
-        p._rejectionHandler0 = value;
-        p._promise0 = value;
-        p._receiver0 = value;
-    }
-    // Complete slack tracking, opt out of field-type tracking and
-    // stabilize map
-    fillTypes({a: 1});
-    fillTypes({b: 2});
-    fillTypes({c: 3});
-    fillTypes(1);
-    fillTypes(function(){});
-    fillTypes(undefined);
-    fillTypes(false);
-    fillTypes(new Promise(INTERNAL));
-    debug.setBounds(Async.firstLineError, util.lastLineError);
-    return Promise;
+                                                         
+    util.toFastProperties(Promise);                                          
+    util.toFastProperties(Promise.prototype);                                
+    function fillTypes(value) {                                              
+        var p = new Promise(INTERNAL);                                       
+        p._fulfillmentHandler0 = value;                                      
+        p._rejectionHandler0 = value;                                        
+        p._promise0 = value;                                                 
+        p._receiver0 = value;                                                
+    }                                                                        
+    // Complete slack tracking, opt out of field-type tracking and           
+    // stabilize map                                                         
+    fillTypes({a: 1});                                                       
+    fillTypes({b: 2});                                                       
+    fillTypes({c: 3});                                                       
+    fillTypes(1);                                                            
+    fillTypes(function(){});                                                 
+    fillTypes(undefined);                                                    
+    fillTypes(false);                                                        
+    fillTypes(new Promise(INTERNAL));                                        
+    debug.setBounds(Async.firstLineError, util.lastLineError);               
+    return Promise;                                                          
 
 };
 
@@ -23384,49 +23412,19 @@ module.exports = ret;
     }
     window.PromiseList = PromiseList;
 
+    //asArray(options) - convert options into []OPTIONS
+    function asArray(options){
+        return options ? ($.isArray(options) ? options : [options]) : [];
+    }
+
+
     //Extend the prototype
     window.PromiseList.prototype = {
-
-        //_getList(options) - Convert options = {} or []{} into []{promise, resolve}
-        _getList: function(options){
-            if (!options) return [];
-
-            options = $.isArray(options) ? options : [options];
-            var result = [];
-            $.each(options, function(index, opt){
-                var promise;
-                if (opt.fileName){
-                    //File-name is given => use intervals.getFileName to convert filename and load it
-                    var format = opt.format || 'JSON',
-                        fileName = window.intervals.getFileName(opt.fileName);
-                    switch (format.toUpperCase() ){
-                        case 'JSON' : promise = window.Promise.getJSON(fileName, opt.promiseOptions ); break;
-                        case 'XML'  : promise = window.Promise.getXML (fileName, opt.promiseOptions ); break;
-                        default     : promise = window.Promise.getText(fileName, opt.promiseOptions ); break;
-                    }
-                }
-                else
-                    if (opt.data)
-                        //Data is given => resolve them
-                        promise = new Promise(function(resolve/*, reject*/) {
-                            resolve(opt.data);
-                        });
-                    else
-                        return;
-
-                result.push({
-                    promise: promise,
-                    options: opt
-                });
-            });
-            return result;
-        },
-
 
         //append( options )
         append: function( options, listId ){
             listId = listId || 'list';
-            this[listId] = this[listId].concat( this._getList(options) );
+            this[listId] = this[listId].concat( asArray(options) );
             return this;
         },
         appendFirst: function( options ){
@@ -23439,7 +23437,7 @@ module.exports = ret;
         //prepend( options )
         prepend: function( options, listId ){
             listId = listId || 'list';
-            this[listId] = this._getList(options).concat( this[listId] );
+            this[listId] = asArray(options).concat( this[listId] );
             return this;
         },
         prependFirst: function( options ){
@@ -23455,8 +23453,31 @@ module.exports = ret;
             //Create this.allList as this.firstList, this.list, this.lastlist
             this.allList = this.firstList.concat(this.list.concat(this.lastList));
 
+            //Create list of all the promises
             var promiseList = [];
-            $.each(this.allList, function(index, options){ promiseList.push(options.promise); });
+            $.each(this.allList, function(index, options){
+                var promise;
+                if (options.fileName){
+                    //File-name is given => use intervals.getFileName to convert filename and load it
+                    var format = options.format || 'JSON',
+                        fileName = window.intervals.getFileName(options.fileName);
+                    switch (format.toUpperCase() ){
+                        case 'JSON' : promise = window.Promise.getJSON(fileName, options.promiseOptions ); break;
+                        case 'XML'  : promise = window.Promise.getXML (fileName, options.promiseOptions ); break;
+                        default     : promise = window.Promise.getText(fileName, options.promiseOptions ); break;
+                    }
+                }
+                else
+                    if (options.data)
+                        //Data is given => resolve them
+                        promise = new Promise(function(resolve/*, reject*/) {
+                            resolve(options.data);
+                        });
+                    else
+                        return;
+
+                promiseList.push(promise);
+            });
 
             Promise.all( promiseList )
                 .then   ( $.proxy(this._then, this) )
@@ -23467,7 +23488,7 @@ module.exports = ret;
         _then: function( dataList ){
             var _this = this;
             $.each(dataList, function(index, data){
-                var opt = _this.allList[index].options;
+                var opt = _this.allList[index];
 
                 //Call the resolve-function
                 opt.resolve(data, opt);
@@ -23505,6 +23526,16 @@ module.exports = ret;
     //Create fcoo-namespace
     var ns = window.fcoo = window.fcoo || {};
 
+    //Overwrite intervals.isFileName and window.intervals.getFileName to use FCOO filename conventions
+    window.intervals.isFileName = function(fileNameOrData){
+        return (($.type(fileNameOrData) == 'string') || (fileNameOrData.subDir && fileNameOrData.fileName));
+    };
+
+    window.intervals.getFileName = function(fileName){
+        return ns.dataFilePath(fileName);
+    };
+
+    //Create common FCOO PromiseList
     ns.promiseList = new window.PromiseList({
 
     });

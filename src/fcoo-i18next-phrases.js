@@ -26,7 +26,8 @@
 
     function addPromise(fileName, resolve, context){
         ns.promiseList.append({
-            fileName: ns.dataFilePath("fcoo-i18next-phrases", fileName),
+//HER            fileName: ns.dataFilePath("fcoo-i18next-phrases", fileName),
+            fileName: {subDir: "fcoo-i18next-phrases", fileName: fileName},
             resolve : $.proxy(resolve, context)
         });
     }
